@@ -17,6 +17,10 @@ public class Encryptor {
     private int key;
     private String menu;
 
+    public Encryptor(int key, String menu) {
+        this.key = key;
+        this.menu = menu;
+    }
 
     public Encryptor(Path pathIn, Path pathOut, int key, String menu) {
         this.pathIn = pathIn;
@@ -57,7 +61,7 @@ public class Encryptor {
     }
 
 
-    private String stringCipher(String buff) {
+    public String stringCipher(String buff) {
         String string = buff.toLowerCase();
         StringBuilder builder = new StringBuilder(string);
         for (int i = 0; i < builder.length(); i++) {
@@ -71,6 +75,4 @@ public class Encryptor {
         String result = builder.toString();
         return result;
     }
-
-
 }

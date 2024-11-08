@@ -11,7 +11,7 @@ public class Validate {
     public String menuItem() {
         Scanner scanner = new Scanner(System.in);
         String keyboard = scanner.nextLine();
-        while (!keyboard.equals("1") && !keyboard.equals("2") && !keyboard.equals("3") && !keyboard.equals("0")) {
+        while (!keyboard.equals("1") && !keyboard.equals("2") && !keyboard.equals("3") && !keyboard.equals("4")&& !keyboard.equals("0")) {
             System.out.println("Вветите пункт из меню:");
             keyboard = scanner.nextLine();
         }

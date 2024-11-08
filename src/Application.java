@@ -1,5 +1,6 @@
 import service.BruteForseDecipher;
 import service.Encryptor;
+import service.StatisticalAnalysis;
 import service.Validate;
 
 
@@ -11,7 +12,7 @@ public class Application {
     public static void main(String[] args) {
 
         System.out.println("Шифровальшик методом Цезаря. Вот что я умею:");
-        System.out.println("1.Шиврование с ключом\n2.Расшифровка с ключом\n3.Brute force\n0.Выход");
+        System.out.println("1.Шиврование с ключом\n2.Расшифровка с ключом\n3.Brute force\n4.Автоматическая расшифровка без ключа с помощью статистического анализа\n0.Выход");
         System.out.println("Выберете пункт меню:");
 
         Validate validate = new Validate();
@@ -21,7 +22,12 @@ public class Application {
 
 
         String result = switch (m) {
-            case "1", "2", "3" -> {
+            case "1", "2", "3", "4" -> {
+
+                if(m.equals("4")){
+                    System.out.println("ВНИМАНИЕ!");
+                    System.out.println("Данный алгоритм не работает с текстом из одного слова и меньше.");
+                }
 
                 System.out.println("Введите путь к файлу для шифрования/расшифровки:");
                 String fileIn = scanner.nextLine();
@@ -50,8 +56,24 @@ public class Application {
                     Encryptor encryptor = new Encryptor(pathIn, pathOut, key, m);
                     encryptor.fileCreator();
                 } else if (m.equals("3")){
+                    System.out.println("Процесс расшифровки...");
                     BruteForseDecipher bruteForse = new BruteForseDecipher(pathIn, fileOut);
                     bruteForse.hacking();
+                }else if(m.equals("4")){
+                    System.out.println("Также необходим фаил FrequencyList(Lemm).txt.txt находящийся в папке service.");
+                    System.out.println("Введите путь к этому файлу:");
+                    String fileLemm = scanner.nextLine();
+                    Path pathLemm = Path.of(fileLemm);
+                    if (!validate.fileIsRegular(pathLemm) || !validate.fileExists(pathLemm)) {
+                        yield  "Путь к файлу не корректный";
+                    }
+                    if (validate.fileIsEmpty(pathLemm)){
+                        yield  "Фаил для шифрования/расшифровки пуст";
+                    }
+                    System.out.println("Процесс расшифровки...");
+                    StatisticalAnalysis statA = new StatisticalAnalysis(pathIn,pathOut,pathLemm);
+                    statA.hacking();
+
                 }
 
                 yield "Процесс завершен";
